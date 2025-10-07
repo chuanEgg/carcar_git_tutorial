@@ -27,7 +27,7 @@ jobs:
       - name: Compile sketch
         run: |
           # Replace with your sketch folder
-          arduino-cli compile --fqbn arduino:avr:uno main.ino
+          arduino-cli compile --fqbn arduino:avr:uno main
           echo "✅ Sketch compiled successfully"
 
       - name: Simulate serial output check
