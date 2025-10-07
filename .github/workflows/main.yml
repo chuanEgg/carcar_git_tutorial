@@ -1,0 +1,36 @@
+name: Run and Check Python Script
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run student script
+        id: run_script
+        run: |
+          output=$(python main.py)
+          echo "Script output: $output"
+          echo "output=$output" >> $GITHUB_OUTPUT
+
+      - name: Check correctness
+        run: |
+          expected="Hello, World!"
+          if [ "${{ steps.run_script.outputs.output }}" != "$expected" ]; then
+            echo "❌ Output does not match expected result."
+            echo "Expected: $expected"
+            echo "Got: ${{ steps.run_script.outputs.output }}"
+            exit 1
+          fi
+          echo "✅ Correct output detected."
